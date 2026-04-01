@@ -22,7 +22,7 @@
 python3 CrabTask_manager.py <STEP>
 ```
 
-`STEP` 可选：`GEN`、`SIM`、`DIGI`、`HLT`、`RECO`、`MINIAOD`。
+`STEP` 可选：`GEN`、`SIM`、`DIGI`、`HLT`、`RECO`、`MINIAOD`、`NTUPLE`。
 
 作用：
 
@@ -36,7 +36,7 @@ python3 CrabTask_manager.py <STEP>
 python3 CrabTask_large_submission_handler.py <STEP>
 ```
 
-`STEP` 可选：`GEN`、`SIM`、`DIGI`、`HLT`、`RECO`。
+`STEP` 可选：`GEN`、`SIM`、`DIGI`、`HLT`、`RECO`、`MINIAOD`。
 
 这里的 `STEP` 表示已经完成的步骤。脚本会自动推进到下一步，并自动修改下一步的 `crab3_Config.py`,然后提交。
 

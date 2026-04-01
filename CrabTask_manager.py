@@ -29,6 +29,7 @@ def manage_crab_tasks(keyword=None):
     "HLT": "../CMSSW_10_2_16_UL/src/crab_projects",
     "RECO": "../CMSSW_10_6_17_patch1/src/crab_projects",
     "MINIAOD": "../CMSSW_10_6_17_patch1/src/crab_projects",
+    "NTUPLE":"../CMSSW_10_6_20/src/NtupleMaker/NtupleMaker/test/crab_projects",
     }
     crab_jobs_dir = STEP_DIR_MAP[keyword]
     log_filename = f"./log/CrabTask_manager_jobStatus_{keyword}.log"
@@ -132,7 +133,7 @@ def manage_crab_tasks(keyword=None):
                     if RE_SUBMIT:
                         print(f"{ORANGE}    [->] Resubmitting failed jobs.{RESET}")
                         log_file.write(f"[->] Resubmitting failed jobs. \n")
-                        resubmit_cmd = f"crab resubmit -d {job_dir} --maxmemory 2000 --maxjobruntime 300"  #more memory if needed
+                        resubmit_cmd = f"crab resubmit -d {job_dir} --maxmemory 3000 --maxjobruntime 300"  #more memory if needed
                         resubmit_result = subprocess.run(resubmit_cmd, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, universal_newlines=True)
 
                         if resubmit_result.returncode != 0:
@@ -174,18 +175,18 @@ def manage_crab_tasks(keyword=None):
 if __name__ == "__main__":
     import sys
 
-    allowed_steps = {"GEN", "SIM", "DIGI", "HLT", "RECO", "MINIAOD"}
+    allowed_steps = {"GEN", "SIM", "DIGI", "HLT", "RECO", "MINIAOD", "NTUPLE"}
 
     if len(sys.argv) < 2:
         print("Usage: python CrabTask_manager.py <STEP>")
-        print("Allowed STEP values: GEN, SIM, DIGI, HLT, RECO, MINIAOD")
+        print("Allowed STEP values: GEN, SIM, DIGI, HLT, RECO, MINIAOD, NTUPLE")
         sys.exit(1)
 
     keyword = sys.argv[1].upper()
 
     if keyword not in allowed_steps:
         print(f"[X] Invalid STEP: {keyword}")
-        print("Allowed STEP values: GEN, SIM, DIGI, HLT, RECO, MINIAOD")
+        print("Allowed STEP values: GEN, SIM, DIGI, HLT, RECO, MINIAOD, NTUPLE")
         sys.exit(1)
 
     manage_crab_tasks(keyword)

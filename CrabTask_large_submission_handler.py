@@ -8,26 +8,27 @@ RED = "\033[91m"
 GREEN = "\033[92m"
 RESET = "\033[0m"
 
-allowed_steps = {"GEN", "SIM", "DIGI", "HLT", "RECO"}
+allowed_steps = {"GEN", "SIM", "DIGI", "HLT", "RECO", "MINIAOD"}
 
 if len(sys.argv) < 2:
     print("Usage: python3 CrabTask_large_submission_handler.py <finished STEP>")
-    print("Allowed STEP values: GEN, SIM, DIGI, HLT, RECO")
+    print("Allowed STEP values: GEN, SIM, DIGI, HLT, RECO, MINIAOD")
     sys.exit(1)
 
 current_step = sys.argv[1].upper()
 if current_step not in allowed_steps:
     print(f"[X] Invalid STEP: {current_step}")
-    print("Allowed STEP values: GEN, SIM, DIGI, HLT, RECO")
+    print("Allowed STEP values: GEN, SIM, DIGI, HLT, RECO, MINIAOD")
     sys.exit(1)
 
 # Crab configuration file
 STEP_DIR_MAP = {
-    "GEN": "../CMSSW_10_6_20_patch1/src",
     "SIM": "../CMSSW_10_6_17_patch1/src",
     "DIGI": "../CMSSW_10_6_17_patch1/src",
     "HLT": "../CMSSW_10_2_16_UL/src",
     "RECO": "../CMSSW_10_6_17_patch1/src",
+    "MINIAOD": "../CMSSW_10_6_17_patch1/src",
+    "NTUPLE":"../CMSSW_10_6_20/src/NtupleMaker/NtupleMaker/test",
 }
 
 NEXT_STEP_MAP = {
@@ -36,6 +37,7 @@ NEXT_STEP_MAP = {
     "DIGI": "HLT",
     "HLT": "RECO",
     "RECO": "MINIAOD",
+    "MINIAOD": "NTUPLE",
 }
 
 # need double check the values for each step
@@ -45,6 +47,7 @@ STEP_RESOURCE_MAP = {
     "HLT":     {"maxMemoryMB": 8000, "numCores": 4},
     "RECO":    {"maxMemoryMB": 8000, "numCores": 4},
     "MINIAOD": {"maxMemoryMB": 4000, "numCores": 1},
+    "NTUPLE":  {"maxMemoryMB": 2500, "numCores": 1},
 }
 
 current_step = sys.argv[1].upper()
@@ -122,7 +125,7 @@ with open(submission_log_file, "w") as log_file:
                     new_content.append(f"config.General.requestName = '{new_dataset_name}'\n")
                 elif "config.Data.outputDatasetTag" in line:
                     new_content.append(f"config.Data.outputDatasetTag = '{new_dataset_name}'\n")
-                elif "config.JobType.psetName" in line:
+                elif "config.JobType.psetName" in line and next_step != "NTUPLE":
                     new_content.append(f"config.JobType.psetName = '{pset_file}'\n")  # Automatically set PSet
                 elif "config.JobType.maxMemoryMB" in line:
                     new_content.append(f"config.JobType.maxMemoryMB = {max_memory_mb}\n")
