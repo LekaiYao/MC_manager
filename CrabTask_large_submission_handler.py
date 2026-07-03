@@ -44,10 +44,10 @@ NEXT_STEP_MAP = {
 STEP_RESOURCE_MAP = {
     "SIM":     {"maxMemoryMB": 2000, "numCores": 1},
     "DIGI":    {"maxMemoryMB": 2000, "numCores": 1},
-    "HLT":     {"maxMemoryMB": 8000, "numCores": 4},
-    "RECO":    {"maxMemoryMB": 8000, "numCores": 4},
-    "MINIAOD": {"maxMemoryMB": 4000, "numCores": 1},
-    "NTUPLE":  {"maxMemoryMB": 2500, "numCores": 1},
+    "HLT":     {"maxMemoryMB": 2000, "numCores": 1},
+    "RECO":    {"maxMemoryMB": 2000, "numCores": 1},
+    "MINIAOD": {"maxMemoryMB": 2000, "numCores": 1},
+    "NTUPLE":  {"maxMemoryMB": 2000, "numCores": 1},
 }
 
 current_step = sys.argv[1].upper()
